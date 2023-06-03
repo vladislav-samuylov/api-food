@@ -1,0 +1,17 @@
+{% extends 'recipes/base.html' %}
+
+{% block content %}
+{% if post.photo %}
+<p><img class="img-article" src="{{post.photo.url}}"></p>
+{% endif %}
+
+<h1>{{post.name}}</h1>
+
+{{post.content|linebreaks}}
+<h2 class="ingredients">Рецепты с данным ингредиентом:</h2>
+<ul class="ingredients">
+{% for ing in post.recipes_set.all %}
+<li><a href="{{ ing.get_absolute_url }}">{{ing}}</a></li>
+{% endfor %}
+</ul>
+{% endblock %}

@@ -1,0 +1,19 @@
+#header, .module caption {
+    background: #2E8B57;
+}
+
+a:visited, a:link {
+    color: #2E8B57;
+}
+
+:root {
+  --primary: #2E8B57;
+}
+
+.object-tools {
+    --object-tools-bg: #2E8B57;
+}
+
+input[type=submit].default {
+    --default-button-bg: #2E8B57;
+}

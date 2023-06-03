@@ -1,0 +1,21 @@
+{% extends 'recipes/base.html' %}
+
+{% block content %}
+<h1>{{post.title}}</h1>
+{{post.time_update|date:"H:i d M Y"}} | Категория: {{post.cat}} | Автор: {{post.user}}
+<br><br>
+
+{% if post.photo %}
+<p><img class="img-article" src="{{post.photo.url}}"></p>
+{% endif %}
+
+{{post.content|linebreaks}}<br>
+
+<h2 class="ingredients">Ингредиенты:</h2>
+<ul class="ingredients">
+{% for ing in post.ingredients.all %}
+<li><a href="{{ ing.get_absolute_url }}">{{ing}}</a></li>
+{% endfor %}
+</ul>
+
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends 'recipes/base.html' %}
+
+{% block content %}
+<ul>
+	{% for p in posts %}
+	{% if p.photo %}
+	<p><li class="description"><img class="img" src="{{p.photo.url}}">
+	<a href="{{ p.get_absolute_url }}">&nbsp;{{p.name}}</a><br>
+	&nbsp;{{p.content}}</p></li>
+	{% endif %}
+	<div class="clear"></div>
+	<br>
+	{% endfor %}
+	<br>
+</ul>
+{% endblock %}
+
+{% if page_obj.has_other_pages %}
+<nav class="list-pages">
+    <ul>
+{% if page_obj.has_previous %}
+<li class="page-num">
+	<a href="?page={{ page_obj.previous_page_number }}">&lt;</a>
+</li>
+{% endif %}
+
+        {% for p in paginator.page_range %}
+		{% if page_obj.number == p %}
+        <li class="page-num">{{ p }}</li>
+		{% elif p >= page_obj.number|add:-2 and p <= page_obj.number|add:2  %}
+        <li class="page-num">
+            <a href="?page={{ p }}">{{ p }}</a>
+        </li>
+		{% endif %}
+        {% endfor %}
+
+{% if page_obj.has_next %}
+<li class="page-num">
+	<a href="?page={{ page_obj.next_page_number }}">&gt;</a>
+</li>
+{% endif %}
+
+    </ul>
+</nav>
+{% endif %}
+	</div>
+</div>

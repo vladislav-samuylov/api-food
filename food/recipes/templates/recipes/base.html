@@ -1,0 +1,94 @@
+{% load static %}
+{% load recipes_tags %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>{{title}}</title>
+	<link type="text/css" href="{% static 'recipes/css/main.css' %}" rel="stylesheet" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<link rel="shortcut icon" href="{% static 'recipes/images/main.ico' %}" type="image/x-icon"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+{% block mainmenu %}
+	<div class="header">
+	<ul class="mainmenu">
+	<a href="/"><img class="logo" src="{% static 'recipes/images/main.ico' %}"></a>
+{% for m in menu %}
+	<li><a href="{% url m.url_name %}">{{m.title}}</a></li>
+{% endfor %}
+	{% if request.user.is_authenticated %}
+		<li class="menu"><a href="{% url 'logout' %}">Выйти</a></li>
+		<li class="menu"><a href="/">{{user.username}}</a></li>
+		<li class="menu" id="register"><a href="/addpage">Добавить рецепт</a></li>
+		{% else %}
+		<li class="menu"><a href="/login">Войти</a></li>
+		<li class="menu" id="register"><a href="/register">Регистрация</a></li>
+		{% endif %}
+	</ul>
+	</div>
+{% endblock mainmenu %}
+
+<!-- Sidebar слева -->
+<div class="left-chapters">
+	<ul class="selected">
+		<li><a href="/">Все категории</a></li>
+		{% for c in cats %}
+		{% if c.recipes__count > 0 %}
+		{% if c.pk == cat_selected %}
+		<li class="selected">{{c.name}}</li>
+		{% else %}
+		<li><a href="{{ c.get_absolute_url }}">{{c.name}}</a></li>
+		{% endif %}
+		{% endif %}
+		{% endfor %}
+	</ul>
+</div>
+
+
+<!-- Блок контента -->
+<div class="content">
+{% block content %}
+{% endblock %}
+{% if page_obj.has_other_pages %}
+<nav class="list-pages">
+    <ul>
+{% if page_obj.has_previous %}
+<li class="page-num">
+	<a href="?page={{ page_obj.previous_page_number }}">&lt;</a>
+</li>
+{% endif %}
+
+    {% for p in paginator.page_range %}
+	{% if page_obj.number == p %}
+	<li class="page-num">{{ p }}</li>
+	{% elif p >= page_obj.number|add:-2 and p <= page_obj.number|add:2  %}
+    <li class="page-num">
+        <a href="?page={{ p }}">{{ p }}</a>
+    </li>
+	{% endif %}
+    {% endfor %}
+
+{% if page_obj.has_next %}
+<li class="page-num">
+	<a href="?page={{ page_obj.next_page_number }}">&gt;</a>
+</li>
+{% endif %}
+
+    </ul>
+</nav>
+{% endif %}
+	</div>
+</div>
+
+
+
+<!-- Footer -->
+<div class="footer">
+	<ul class="selected">
+		<li><a href="/about">О Сайте</a></li>
+		<li><a href="/contact">Обратная связь</a></li>
+		<li><a href="https://www.linkedin.com/in/vladislav-samuylov/" target="_blank">Linkedin</a></li>
+	</ul>
+</div>
+</body>

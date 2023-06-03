@@ -1,0 +1,18 @@
+{% extends 'recipes/base.html' %}
+
+{% block content %}
+<ul>
+	{% for p in posts %}
+	{% if p.photo %}
+	<p><li class="description"><img class="img" src="{{p.photo.url}}">
+	&ensp;<a href="{{ p.get_absolute_url }}">{{p.title}}</a><br>
+	<h5 class="last">&ensp;{{p.time_update|date:"H:i d M Y"}} | Категория: {{p.cat}}</h5><br>
+	&ensp;{{p.anons}}<a href="{{ p.get_absolute_url }}">   подробнее...</a></p>
+	<p class="link-read-post"><a href="{{ p.get_absolute_url }}">Читать</a></p></li>
+	{% endif %}
+     <div class="clear"></div>
+	<br>
+	{% endfor %}
+	<br>
+</ul>
+{% endblock %}
